@@ -221,7 +221,7 @@ public class GameController {
 
         if(current != null && player.board == current.board){
 
-                player.setHeading(Heading.EAST);
+            player.setHeading(player.getHeading().next());
         }
 
     }
@@ -233,7 +233,7 @@ public class GameController {
 
         if(current != null && player.board == current.board){
 
-                player.setHeading(Heading.WEST);
+            player.setHeading(player.getHeading().prev());
         }
     }
 
