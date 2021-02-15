@@ -220,7 +220,9 @@ public class GameController {
         if(current != null && player.board == current.board){
             Space target = board.getNeighbour(current, player.getHeading().next());
             if (target != null && target.getPlayer() == null){
-                player.setSpace(target);
+
+                player.setHeading(Heading.EAST);
+
             }
         }
 
@@ -232,7 +234,9 @@ public class GameController {
         if(current != null && player.board == current.board){
             Space target = board.getNeighbour(current, player.getHeading().prev());
             if (target != null && target.getPlayer() == null){
-                player.setSpace(target);
+
+                player.setHeading(Heading.WEST);
+
             }
         }
     }
