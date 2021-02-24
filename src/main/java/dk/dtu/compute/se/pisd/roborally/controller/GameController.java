@@ -25,7 +25,7 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * ...
+ * This is the controller class responsible for execution of phases and cards
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -144,6 +144,10 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
+                    if (command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return;
+                    }
                     executeCommand(currentPlayer, command);
                 }
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
@@ -166,6 +170,36 @@ public class GameController {
         } else {
             // this should not happen
             assert false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    public void executeCommandOptionAndContinue(@NotNull Command option){
+        Player currentPlayer = board.getCurrentPlayer();
+        if (currentPlayer != null && board.getPhase() == Phase.PLAYER_INTERACTION){
+            executeCommand(currentPlayer, option);
+
+            int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+            if (nextPlayerNumber < board.getPlayersNumber()) {
+                board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            } else {
+                int step = board.getStep() + 1;
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step);
+                    board.setStep(step);
+                    board.setCurrentPlayer(board.getPlayer(0));
+                } else {
+                    startProgrammingPhase();
+                }
+            }
         }
     }
 
