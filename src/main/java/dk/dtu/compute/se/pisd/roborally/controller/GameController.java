@@ -154,7 +154,7 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
-                    step++;
+                    step = board.getStep() + 1;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
@@ -184,7 +184,11 @@ public class GameController {
 
     public void executeCommandOptionAndContinue(@NotNull Command option){
         Player currentPlayer = board.getCurrentPlayer();
+
         if (currentPlayer != null && board.getPhase() == Phase.PLAYER_INTERACTION){
+
+            board.setPhase(Phase.ACTIVATION);
+
             executeCommand(currentPlayer, option);
 
             int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
@@ -199,7 +203,7 @@ public class GameController {
                 } else {
                     startProgrammingPhase();
                 }
-            }
+            } continuePrograms();
         }
     }
 
@@ -238,14 +242,12 @@ public class GameController {
                 player.setSpace(target);
             }
         }
-
     }
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
-
     }
 
     // TODO Assignment V2
@@ -257,7 +259,6 @@ public class GameController {
 
             player.setHeading(player.getHeading().next());
         }
-
     }
 
     // TODO Assignment V2
