@@ -46,7 +46,6 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     public final Space space;
 
-
     public SpaceView(@NotNull Space space) {
         this.space = space;
 
@@ -65,7 +64,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
-        // updatePlayer();
+        updatePlayer();
 
         // This space view should listen to changes of the space
         space.attach(this);
@@ -76,6 +75,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().clear();
 
         Player player = space.getPlayer();
+
+        if (space.hasWall()) {
+
+            showWall();
+        }
+
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
@@ -93,9 +98,23 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     @Override
     public void updateView(Subject subject) {
+
         if (subject == this.space) {
             updatePlayer();
         }
     }
 
+    public void showWall() {
+
+        Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.setStroke(Color.RED);
+        gc.setLineWidth(5);
+        gc.setLineCap(StrokeLineCap.ROUND);
+
+        gc.strokeLine(2, 0,2, SPACE_HEIGHT);
+        this.getChildren().add(canvas);
+    }
 }

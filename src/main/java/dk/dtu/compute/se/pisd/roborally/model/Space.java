@@ -35,6 +35,9 @@ public class Space extends Subject {
 
     public final int x;
     public final int y;
+    private boolean hasWall = false;
+
+    Wall walls = new Wall();
 
     private Player player;
 
@@ -43,6 +46,21 @@ public class Space extends Subject {
         this.x = x;
         this.y = y;
         player = null;
+
+        if (x > 5) {
+
+            walls.heading = Heading.WEST;
+
+//            walls[0].heading = Heading.WEST;
+//            walls[1].heading = Heading.WEST;
+//            walls[2].heading = Heading.WEST;
+//            walls[3].heading = Heading.WEST;
+            this.hasWall = true;
+        }
+
+//        if ((x + y) % 2 == 0) {
+//            boolean wall = true;
+//        }
     }
 
     public Player getPlayer() {
@@ -71,5 +89,31 @@ public class Space extends Subject {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
+
+    public boolean hasWall() {
+        return hasWall;
+    }
+
+    public boolean canMoveTo(Heading heading) {
+
+        if (!hasWall) {
+            return true;
+
+        } else if (walls.heading == heading || walls.heading == heading.prev().prev()) {
+
+            return false;
+        }
+
+//        for (int i = 0; i < walls.length; i++) {
+//
+//            if (walls[i].heading == heading || walls[i].heading == heading.prev().prev()) {
+//
+//                return false;
+//            }
+//        }
+        return true;
+    }
+
+
 
 }
