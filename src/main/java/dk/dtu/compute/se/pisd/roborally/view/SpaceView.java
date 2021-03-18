@@ -124,6 +124,13 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    /**
+     * ...
+     *
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Olesen
+     */
+
     public void showWall(int x1, int y1, int x2, int y2) {
 
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
