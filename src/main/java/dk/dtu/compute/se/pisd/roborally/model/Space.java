@@ -41,7 +41,6 @@ public class Space extends Subject {
     ArrayList<Wall> walls = new ArrayList<>();
 
     private Player player;
-    boolean hasWall = false;
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -50,8 +49,6 @@ public class Space extends Subject {
         player = null;
 
         if (x == 2 && y == 2 || x == 2 && y == 3) {
-
-            hasWall = true;
 
             for (int i = 0; i < 2; i++) {
 
@@ -67,8 +64,6 @@ public class Space extends Subject {
             }
         }
         if (x == 4 && y == 2 || x == 4 && y == 3) {
-
-            hasWall = true;
 
             for (int i = 0; i < 2; i++) {
 
