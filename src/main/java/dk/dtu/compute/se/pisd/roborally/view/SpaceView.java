@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.Wall;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
@@ -32,6 +33,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 /**
  * ...
@@ -76,10 +79,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         Player player = space.getPlayer();
 
-        if (space.hasWall()) {
-
-            showWall();
-        }
+        showWalls(space.getWalls());
 
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
@@ -104,7 +104,27 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    public void showWall() {
+    public void showWalls(@NotNull ArrayList<Wall> walls) {
+
+        for (int i = 0; i < walls.size(); i++) {
+
+            if (walls.get(i).heading == Heading.NORTH) {
+                showWall(0,2,SPACE_WIDTH,2);
+
+            } else if (walls.get(i).heading == Heading.EAST) {
+                showWall(SPACE_WIDTH-2,0,SPACE_WIDTH-2,SPACE_HEIGHT);
+
+            } else if (walls.get(i).heading == Heading.SOUTH) {
+                showWall(0,SPACE_HEIGHT-2,SPACE_WIDTH,SPACE_HEIGHT-2);
+
+            } else if (walls.get(i).heading == Heading.WEST) {
+                showWall(2,0,2,SPACE_HEIGHT);
+
+            }
+        }
+    }
+
+    public void showWall(int x1, int y1, int x2, int y2) {
 
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
 
@@ -114,7 +134,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         gc.setLineWidth(5);
         gc.setLineCap(StrokeLineCap.ROUND);
 
-        gc.strokeLine(2, 0,2, SPACE_HEIGHT);
+        gc.strokeLine(x1, y1,x2, y2);
         this.getChildren().add(canvas);
     }
 }

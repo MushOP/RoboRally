@@ -238,7 +238,8 @@ public class GameController {
         Space current = player.getSpace();
         if(current != null && player.board == current.board){
             Space target = board.getNeighbour(current, player.getHeading());
-            if (target != null && target.getPlayer() == null && target.canMoveTo(player.getHeading())){
+            if (target != null && target.getPlayer() == null &&
+                    target.canMoveTo(player.getHeading(), true) && current.canMoveTo(player.getHeading(), false)){
                 player.setSpace(target);
             }
         }

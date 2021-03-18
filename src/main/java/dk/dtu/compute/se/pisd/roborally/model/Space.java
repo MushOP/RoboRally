@@ -21,7 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import java.util.ArrayList;
 
 /**
  * ...
@@ -35,11 +37,11 @@ public class Space extends Subject {
 
     public final int x;
     public final int y;
-    private boolean hasWall = false;
 
-    Wall walls = new Wall();
+    ArrayList<Wall> walls = new ArrayList<>();
 
     private Player player;
+    boolean hasWall = false;
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -47,20 +49,40 @@ public class Space extends Subject {
         this.y = y;
         player = null;
 
-        if (x > 5) {
+        if (x == 2 && y == 2 || x == 2 && y == 3) {
 
-            walls.heading = Heading.WEST;
+            hasWall = true;
 
-//            walls[0].heading = Heading.WEST;
-//            walls[1].heading = Heading.WEST;
-//            walls[2].heading = Heading.WEST;
-//            walls[3].heading = Heading.WEST;
-            this.hasWall = true;
+            for (int i = 0; i < 2; i++) {
+
+                walls.add(new Wall());
+
+                if (i == 0) {
+                    walls.get(i).heading = Heading.NORTH;
+
+                } else {
+                    walls.get(i).heading = Heading.EAST;
+
+                }
+            }
         }
+        if (x == 4 && y == 2 || x == 4 && y == 3) {
 
-//        if ((x + y) % 2 == 0) {
-//            boolean wall = true;
-//        }
+            hasWall = true;
+
+            for (int i = 0; i < 2; i++) {
+
+                walls.add(new Wall());
+
+                if (i == 0) {
+                    walls.get(i).heading = Heading.WEST;
+
+                } else {
+                    walls.get(i).heading = Heading.SOUTH;
+
+                }
+            }
+        }
     }
 
     public Player getPlayer() {
@@ -90,28 +112,21 @@ public class Space extends Subject {
         notifyChange();
     }
 
-    public boolean hasWall() {
-        return hasWall;
+    public boolean canMoveTo(Heading heading, boolean is_neighbour) {
+
+        for (int i = 0; i < walls.size(); i++) {
+
+            if (is_neighbour && walls.get(i).heading == heading.prev().prev()) {
+                return false;
+            } else if (!is_neighbour && walls.get(i).heading == heading) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public boolean canMoveTo(Heading heading) {
-
-        if (!hasWall) {
-            return true;
-
-        } else if (walls.heading == heading || walls.heading == heading.prev().prev()) {
-
-            return false;
-        }
-
-//        for (int i = 0; i < walls.length; i++) {
-//
-//            if (walls[i].heading == heading || walls[i].heading == heading.prev().prev()) {
-//
-//                return false;
-//            }
-//        }
-        return true;
+    public ArrayList<Wall> getWalls() {
+        return walls;
     }
 
 
