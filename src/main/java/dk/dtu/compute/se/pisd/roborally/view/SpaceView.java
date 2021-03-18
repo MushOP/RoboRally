@@ -22,18 +22,15 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import dk.dtu.compute.se.pisd.roborally.model.Wall;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 
 /**
@@ -76,11 +73,9 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void updatePlayer() {
         this.getChildren().clear();
-
         Player player = space.getPlayer();
-
         showWalls(space.getWalls());
-
+        updateCheckpoint();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
@@ -96,12 +91,22 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    private void updateCheckpoint() {
+        Checkpoint checkpoint = space.getCheckpoint();
+        if (checkpoint != null) {
+            Circle circle= new Circle(10.0);
+            circle.setFill(Color.BLUE);
+            this.getChildren().add(circle);
+        }
+    }
+
+
     @Override
     public void updateView(Subject subject) {
-
         if (subject == this.space) {
             updatePlayer();
         }
+        System.out.println("updated");
     }
 
     public void showWalls(@NotNull ArrayList<Wall> walls) {
@@ -132,15 +137,11 @@ public class SpaceView extends StackPane implements ViewObserver {
      */
 
     public void showWall(int x1, int y1, int x2, int y2) {
-
         Canvas canvas = new Canvas(SPACE_WIDTH, SPACE_HEIGHT);
-
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
         gc.setStroke(Color.RED);
         gc.setLineWidth(5);
         gc.setLineCap(StrokeLineCap.ROUND);
-
         gc.strokeLine(x1, y1,x2, y2);
         this.getChildren().add(canvas);
     }

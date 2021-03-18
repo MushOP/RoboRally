@@ -20,8 +20,6 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
-
-
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import java.util.ArrayList;
 
@@ -81,20 +79,20 @@ public class Space extends Subject {
         if (x == 5 && y == 4) {
             checkpoint = new Checkpoint(1);
         }
-        if (x == 7 && y == 3) {
+        else if (x == 4 && y == 3) {
             checkpoint = new Checkpoint(2);
         }
-        if (x == 2 && y == 7) {
-            checkpoints.add(new Checkpoint(3));
+        else if (x == 2 && y == 3) {
+            checkpoint = new Checkpoint(3);
         }
-        if (x == 6 && y == 6) {
-            checkpoints.add(new Checkpoint(4));
+        else if (x == 3 && y == 4) {
+            checkpoint = new Checkpoint(4);
         }
-        if (x == 3 && y == 3) {
-            checkpoints.add(new Checkpoint(5));
+        else if (x == 2 && y == 5) {
+            checkpoint = new Checkpoint(5);
         }
-        if (x == 7 && y == 7) {
-            checkpoints.add(new Checkpoint(6));
+        else if (x == 1 && y == 3) {
+            checkpoint = new Checkpoint(6);
         }
     }
 
@@ -126,9 +124,7 @@ public class Space extends Subject {
     }
 
     public boolean canMoveTo(Heading heading, boolean is_neighbour) {
-
         for (int i = 0; i < walls.size(); i++) {
-
             if (is_neighbour && walls.get(i).heading == heading.prev().prev()) {
                 return false;
             } else if (!is_neighbour && walls.get(i).heading == heading) {
@@ -142,6 +138,6 @@ public class Space extends Subject {
         return walls;
     }
     public Checkpoint getCheckpoint(){
-        return getCheckpoint();
+        return checkpoint;
     }
 }
