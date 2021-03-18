@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -41,10 +43,10 @@ public class Player extends Subject {
 
     private String name;
     private String color;
-
+    private int score;
     private Space space;
     private Heading heading = SOUTH;
-
+    ArrayList<Integer> landedCheckpoints;
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
@@ -52,9 +54,9 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
-
         this.space = null;
-
+        this.landedCheckpoints = new ArrayList<>();
+        this.score = 0; //score for checkpoints
         program = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < program.length; i++) {
             program[i] = new CommandCardField(this);
@@ -65,7 +67,6 @@ public class Player extends Subject {
             cards[i] = new CommandCardField(this);
         }
     }
-
     public String getName() {
         return name;
     }
@@ -124,6 +125,23 @@ public class Player extends Subject {
             }
         }
     }
+
+    public void landCheckpoint(int ID){
+        boolean unique = true;
+        for (int i = 0; i < landedCheckpoints.size(); i++){
+            if(landedCheckpoints.get(i) == ID){
+                unique = false;
+            }
+        }
+        if (unique = true){
+            landedCheckpoints.add(ID);
+            changeScore(1);
+        }
+    }
+    public void changeScore(int point){
+        score = score + point;
+    }
+
 
     public CommandCardField getProgramField(int i) {
         return program[i];

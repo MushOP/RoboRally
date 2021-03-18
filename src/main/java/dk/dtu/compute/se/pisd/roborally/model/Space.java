@@ -34,12 +34,12 @@ import java.util.ArrayList;
 public class Space extends Subject {
 
     public final Board board;
-
+    private Checkpoint checkpoint;
     public final int x;
     public final int y;
 
     ArrayList<Wall> walls = new ArrayList<>();
-
+    ArrayList<Checkpoint> checkpoints = new ArrayList<>();
     private Player player;
 
     public Space(Board board, int x, int y) {
@@ -47,7 +47,7 @@ public class Space extends Subject {
         this.x = x;
         this.y = y;
         player = null;
-
+        checkpoint = null;
         if (x == 2 && y == 2 || x == 2 && y == 3) {
 
             for (int i = 0; i < 2; i++) {
@@ -77,6 +77,24 @@ public class Space extends Subject {
 
                 }
             }
+        }
+        if (x == 5 && y == 4) {
+            checkpoint = new Checkpoint(1);
+        }
+        if (x == 7 && y == 3) {
+            checkpoint = new Checkpoint(2);
+        }
+        if (x == 2 && y == 7) {
+            checkpoints.add(new Checkpoint(3));
+        }
+        if (x == 6 && y == 6) {
+            checkpoints.add(new Checkpoint(4));
+        }
+        if (x == 3 && y == 3) {
+            checkpoints.add(new Checkpoint(5));
+        }
+        if (x == 7 && y == 7) {
+            checkpoints.add(new Checkpoint(6));
         }
     }
 
@@ -123,7 +141,7 @@ public class Space extends Subject {
     public ArrayList<Wall> getWalls() {
         return walls;
     }
-
-
-
+    public Checkpoint getCheckpoint(){
+        return getCheckpoint();
+    }
 }
