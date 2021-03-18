@@ -106,7 +106,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             updatePlayer();
         }
-        System.out.println("updated");
     }
 
     public void showWalls(@NotNull ArrayList<Wall> walls) {
