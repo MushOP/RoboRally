@@ -21,7 +21,10 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -35,7 +38,7 @@ public class Space extends Subject {
     private Checkpoint checkpoint;
     public final int x;
     public final int y;
-
+    private List<FieldAction> actions = new ArrayList<>();
     ArrayList<Wall> walls = new ArrayList<>();
     ArrayList<Checkpoint> checkpoints = new ArrayList<>();
     private Player player;
@@ -139,5 +142,8 @@ public class Space extends Subject {
     }
     public Checkpoint getCheckpoint(){
         return checkpoint;
+    }
+    public List<FieldAction> getActions() {
+        return actions;
     }
 }
