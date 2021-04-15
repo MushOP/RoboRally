@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 
 /**
  * ...
