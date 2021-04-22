@@ -109,7 +109,7 @@ class Repository implements IRepository {
 				createCardFieldsInDB(game);
 				 */
 
-				// since current player is a foreign key, it can oly be
+				// since current player is a foreign key, it can only be
 				// inserted after the players are created, since MySQL does
 				// not have a per transaction validation, but validates on
 				// a per row basis.
@@ -219,6 +219,7 @@ class Repository implements IRepository {
 				}
 				playerNo = rs.getInt(GAME_CURRENTPLAYER);
 				// TODO currently we do not set the games name (needs to be added)
+
 				game.setPhase(Phase.values()[rs.getInt(GAME_PHASE)]);
 				game.setStep(rs.getInt(GAME_STEP));
 			} else {
