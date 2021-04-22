@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
 import javafx.application.Application;
@@ -42,9 +43,9 @@ import dk.dtu.compute.se.pisd.roborally.dal.*;
 public class RoboRally extends Application {
 
     private static final int MIN_APP_WIDTH = 600;
-
     private Stage stage;
     private BorderPane boardRoot;
+
     // private RoboRallyMenuBar menuBar;
 
     // private AppController appController;
@@ -78,6 +79,7 @@ public class RoboRally extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+
     }
 
     public void createBoardView(GameController gameController) {
@@ -114,8 +116,7 @@ public class RoboRally extends Application {
     static class test {
 
         public static void main(String[] args) {
-            IRepository repository = RepositoryAccess.getRepository();
-
+            IRepository repository = RepositoryAccess.getRepository(); 
         }
     }
 }
