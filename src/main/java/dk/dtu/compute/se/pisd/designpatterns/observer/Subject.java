@@ -35,16 +35,13 @@ import java.util.WeakHashMap;
  *
  */
 public abstract class Subject {
-	
-	private Set<Observer> observers =
-			Collections.newSetFromMap(new WeakHashMap<>());
+	private Set<Observer> observers = Collections.newSetFromMap(new WeakHashMap<>());
 	// Note: In JavaFX, the views do not have a way to know when they are
 	// removed from the window, and therefore cannot always unregister
 	// themselves from subjects they observe before the views become garbage.
 	// Therefore, the set of observers are maintained as a weak set, so
 	// that these observers are implicitly removed, when the observers
 	// would be garbage (if not for these references)!
-
 	/**
 	 * This methods allows an observer to register with the subject
 	 * for update notifications when the subject changes.

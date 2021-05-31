@@ -22,10 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.dal;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -39,37 +36,31 @@ import java.util.List;
  *
  */
 class Repository implements IRepository {
-	
 	private static final String GAME_GAMEID = "gameID";
-
 	private static final String GAME_NAME = "name";
-	
 	private static final String GAME_CURRENTPLAYER = "currentPlayer";
-
 	private static final String GAME_PHASE = "phase";
-
 	private static final String GAME_STEP = "step";
-	
 	private static final String PLAYER_PLAYERID = "playerID";
-	
 	private static final String PLAYER_NAME = "name";
-
 	private static final String PLAYER_COLOUR = "colour";
-	
 	private static final String PLAYER_GAMEID = "gameID";
-	
 	private static final String PLAYER_POSITION_X = "positionX";
-
 	private static final String PLAYER_POSITION_Y = "positionY";
-
 	private static final String PLAYER_HEADING = "heading";
+	private static final String FIELD_GAMEID = "gameID";
+	private static final String FIELD_PLAYERID = "playerID";
+	private static final String FIELD_TYPE = "type";
+	private static final int FIELD_TYPE_REGISTER = 0;
+	private static final int FIELD_TYPE_HAND = 1;
+	private static final String FIELD_POS = "position";
+	private static final String FIELD_VISIBLE = "visible";
+	private static final String FIELD_COMMAND = "command";
 
 	private Connector connector;
-	
 	Repository(Connector connector){
 		this.connector = connector;
 	}
-
 	@Override
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
@@ -237,11 +228,7 @@ class Repository implements IRepository {
 				// TODO  error handling
 				return null;
 			}
-
-			/* TOODO this method needs to be implemented first
 			loadCardFieldsFromDB(game);
-			*/
-
 			return game;
 		} catch (SQLException e) {
 			// TODO error handling
@@ -249,6 +236,35 @@ class Repository implements IRepository {
 			System.err.println("Some DB error");
 		}
 		return null;
+	}
+
+	private void loadCardFieldsFromDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectCardFieldStatement();
+		ps.setInt(1,game.getGameId());
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()){
+			int playerId = rs.getInt(FIELD_PLAYERID);
+			Player player = game.getPlayer(playerId);
+			int type = rs.getInt(FIELD_TYPE);
+			int pos = rs.getInt(FIELD_POS);
+			CommandCardField field;
+			if (type == FIELD_TYPE_REGISTER){
+				field = player.getProgramField(pos);
+			} else if (type == FIELD_TYPE_HAND){
+				field = player.getCardField(pos);
+			} else {
+				field = null;
+			}
+			if (field != null){
+				field.setVisible(rs.getBoolean(FIELD_VISIBLE));
+				Object c = rs.getObject(FIELD_COMMAND);
+				if (c != null){
+					Command card = Command.values()[rs.getInt(FIELD_COMMAND)];
+					field.setCard(new CommandCard(card));
+				}
+			}
+		}
+		rs.close();
 	}
 	
 	@Override
@@ -367,7 +383,6 @@ class Repository implements IRepository {
 		}
 		return insert_game_stmt;
 	}
-
 	private static final String SQL_SELECT_GAME =
 			"SELECT * FROM Game WHERE gameID = ?";
 	
@@ -392,7 +407,12 @@ class Repository implements IRepository {
 	private static final String SQL_SELECT_PLAYERS =
 			"SELECT * FROM Player WHERE gameID = ?";
 
+	private static final String SQL_SELECT_CARD_FIELDS =
+			"SELECT * FROM CardField WHERE gameID = ?";
+
 	private PreparedStatement select_players_stmt = null;
+
+	private PreparedStatement select_card_field_stmt = null;
 
 	private PreparedStatement getSelectPlayersStatementU() {
 		if (select_players_stmt == null) {
@@ -408,6 +428,22 @@ class Repository implements IRepository {
 			}
 		}
 		return select_players_stmt;
+	}
+
+	private PreparedStatement getSelectCardFieldStatement() {
+		if (select_card_field_stmt == null) {
+			Connection connection = connector.getConnection();
+			try {
+				select_card_field_stmt = connection.prepareStatement(
+						SQL_SELECT_CARD_FIELDS,
+						ResultSet.TYPE_FORWARD_ONLY,
+						ResultSet.CONCUR_UPDATABLE);
+			} catch (SQLException e) {
+				// TODO error handling
+				e.printStackTrace();
+			}
+		}
+		return select_card_field_stmt;
 	}
 
 	private static final String SQL_SELECT_PLAYERS_ASC =

@@ -34,11 +34,7 @@ import java.util.List;
 public interface IRepository {
 	
  	boolean createGameInDB(Board game);
-	
 	boolean updateGameInDB(Board game);
-	
 	Board loadGameFromDB(int id);
-	
 	List<GameInDB> getGames();
-
 }

@@ -97,7 +97,6 @@ public class AppController implements Observer {
     public void saveGame() {
         // XXX needs to be implemented eventually
         IRepository repository = RepositoryAccess.getRepository();
-
         for (GameInDB g : repository.getGames()) {
             //if (g.id == b)
         }
