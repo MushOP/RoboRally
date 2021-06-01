@@ -67,7 +67,6 @@ class Repository implements IRepository {
 			Connection connection = connector.getConnection();
 			try {
 				connection.setAutoCommit(false);
-
 				PreparedStatement ps = getInsertGameStatementRGK();
 				// TODO: the name should eventually set by the user
 				//       for the game and should be then used 
@@ -94,7 +93,6 @@ class Repository implements IRepository {
 				// Enable foreign key constraint check again:
 				// statement.execute("SET foreign_key_checks = 1");
 				// statement.close();
-
 				createPlayersInDB(game);
 				/* TOODO this method needs to be implemented first
 				createCardFieldsInDB(game);
@@ -326,7 +324,6 @@ class Repository implements IRepository {
 				String colour = rs.getString(PLAYER_COLOUR);
 				Player player = new Player(game, colour ,name);
 				game.addPlayer(player);
-				
 				int x = rs.getInt(PLAYER_POSITION_X);
 				int y = rs.getInt(PLAYER_POSITION_Y);
 				player.setSpace(game.getSpace(x,y));
@@ -411,7 +408,6 @@ class Repository implements IRepository {
 			"SELECT * FROM CardField WHERE gameID = ?";
 
 	private PreparedStatement select_players_stmt = null;
-
 	private PreparedStatement select_card_field_stmt = null;
 
 	private PreparedStatement getSelectPlayersStatementU() {

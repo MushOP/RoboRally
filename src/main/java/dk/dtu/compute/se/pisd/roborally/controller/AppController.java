@@ -20,25 +20,21 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
-
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import jdk.jfr.internal.Repository;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -52,20 +48,19 @@ import java.util.Optional;
 public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-
     final private RoboRally roboRally;
-
+    final private IRepository repository;
     private GameController gameController;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
+        this.repository = RepositoryAccess.getRepository();
     }
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
-
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -74,7 +69,6 @@ public class AppController implements Observer {
                     return;
                 }
             }
-
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
@@ -85,26 +79,32 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
             }
-
             // XXX: V2
-            // board.setCurrentPlayer(board.getPlayer(0));
+            board.setCurrentPlayer(board.getPlayer(0));
             gameController.startProgrammingPhase();
-
             roboRally.createBoardView(gameController);
         }
     }
-
     public void saveGame() {
         // XXX needs to be implemented eventually
-        IRepository repository = RepositoryAccess.getRepository();
-        for (GameInDB g : repository.getGames()) {
-            //if (g.id == b)
+        Board game = gameController.board;
+        if(game.getGameId() == null){
+            repository.createGameInDB(game);
         }
-
+        else {
+            for (GameInDB g : repository.getGames()) {
+                if (g.id == game.getGameId()) {
+                    repository.updateGameInDB(game);
+                    break;
+                }
+            }
+        }
     }
-
     public void loadGame() {
         // XXX needs to be implememted eventually
+        for (GameInDB g : repository.getGames()) {
+            repository.loadGameFromDB(g.id);
+        }
         // for now, we just create a new game
         if (gameController == null) {
             newGame();
@@ -122,10 +122,8 @@ public class AppController implements Observer {
      */
     public boolean stopGame() {
         if (gameController != null) {
-
             // here we save the game (without asking the user).
             saveGame();
-
             gameController = null;
             roboRally.createBoardView(null);
             return true;
@@ -152,7 +150,6 @@ public class AppController implements Observer {
             Platform.exit();
         }
     }
-
     public boolean isGameRunning() {
         return gameController != null;
         // TODO needs to be implemented
@@ -161,6 +158,7 @@ public class AppController implements Observer {
     @Override
     public void update(Subject subject) {
         // XXX do nothing for now
+
     }
 
 }

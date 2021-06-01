@@ -36,15 +36,12 @@ import java.sql.Statement;
  *
  */
 class Connector {
-
     private static final String HOST     = "localhost";
     private static final int    PORT     = 3306;
     private static final String DATABASE = "pisu";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "hej";
-
     private static final String DELIMITER = ";;";
-
     private Connection connection;
 
     Connector() {
@@ -63,7 +60,6 @@ class Connector {
     }
 
     private void createDatabaseSchema() {
-
         String createTablesStatement =
                 IOUtil.readResource("schemas/createschema.sql");
         try {
@@ -74,7 +70,6 @@ class Connector {
                     statement.executeUpdate(sql);
                 }
             }
-
             statement.close();
             connection.commit();
         } catch (SQLException e) {
@@ -89,7 +84,6 @@ class Connector {
             } catch (SQLException e) {}
         }
     }
-
     Connection getConnection() {
         return connection;
     }
