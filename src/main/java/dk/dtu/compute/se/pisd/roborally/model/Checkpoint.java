@@ -13,7 +13,6 @@ public class Checkpoint {
     public Checkpoint(int ID){
         this.ID = ID;
     }
-
     public int getID(){
         return ID;
     }
