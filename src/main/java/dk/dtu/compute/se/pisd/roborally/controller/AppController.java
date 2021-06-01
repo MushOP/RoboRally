@@ -86,6 +86,7 @@ public class AppController implements Observer {
         }
     }
     public void saveGame() {
+
         // XXX needs to be implemented eventually
         Board game = gameController.board;
         if(game.getGameId() == null){
@@ -102,13 +103,8 @@ public class AppController implements Observer {
     }
     public void loadGame() {
         // XXX needs to be implememted eventually
-        for (GameInDB g : repository.getGames()) {
-            repository.loadGameFromDB(g.id);
-        }
-        // for now, we just create a new game
-        if (gameController == null) {
-            newGame();
-        }
+
+        repository.loadGameFromDB(4);
     }
 
     /**
