@@ -101,6 +101,7 @@ public class AppController implements Observer {
             }
         }
     }
+
     public void loadGame() {
         // XXX needs to be implememted eventually
 
@@ -112,7 +113,7 @@ public class AppController implements Observer {
             }
         }
         Board game;
-        game = repository.loadGameFromDB(9);
+        game = repository.loadGameFromDB(32);
         if (game == null) {
             return;
         }

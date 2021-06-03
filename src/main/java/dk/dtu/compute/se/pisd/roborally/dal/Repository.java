@@ -56,6 +56,7 @@ class Repository implements IRepository {
 	private static final String FIELD_POS = "position";
 	private static final String FIELD_VISIBLE = "visible";
 	private static final String FIELD_COMMAND = "command";
+	private static final String[] command_names = new String[] {"Fwd", "Turn Right", "Turn Left", "Fast Fwd", "Left OR Right"};
 
 	private Connector connector;
 	Repository(Connector connector){
@@ -94,9 +95,9 @@ class Repository implements IRepository {
 				// statement.execute("SET foreign_key_checks = 1");
 				// statement.close();
 				createPlayersInDB(game);
-				/* TOODO this method needs to be implemented first
+				//TODO this method needs to be implemented first
 				createCardFieldsInDB(game);
-				 */
+
 
 				// since current player is a foreign key, it can only be
 				// inserted after the players are created, since MySQL does
@@ -152,6 +153,7 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
+				rs.updateRow();
 				rs.updateRow();
 			} else {
 				// TODO error handling
@@ -227,7 +229,7 @@ class Repository implements IRepository {
 				// TODO  error handling
 				return null;
 			}
-			//loadCardFieldsFromDB(game);
+			loadCardFieldsFromDB(game);
 			return game;
 		} catch (SQLException e) {
 			// TODO error handling
@@ -235,6 +237,64 @@ class Repository implements IRepository {
 			System.err.println("Some DB error");
 		}
 		return null;
+	}
+
+	private void createCardFieldsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement ps = getSelectCardFieldStatement();
+		ps.setInt(1, game.getGameId());
+		int nhandcard = 8;
+		int nprogramcard = 5;
+
+		ResultSet rs = ps.executeQuery();
+
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+
+			Player player = game.getPlayer(i);
+
+			for (int j = 0; j < nprogramcard; j++) {
+				rs.moveToInsertRow();
+
+				CommandCardField field = player.getProgramField(j);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE, FIELD_TYPE_REGISTER);
+				rs.updateInt(FIELD_POS, j);
+				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
+
+				if (field.getCard() != null) {
+					for (int k = 0; k < command_names.length; k++) {
+						if (field.getCard().command.displayName.equals(command_names[k])) {
+							rs.updateInt(FIELD_COMMAND, k);
+							break;
+						}
+					}
+				}
+				rs.insertRow();
+			}
+
+			for (int l = 0; l < nhandcard; l++) {
+				rs.moveToInsertRow();
+
+				CommandCardField field = player.getCardField(l);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE, FIELD_TYPE_HAND);
+				rs.updateInt(FIELD_POS, l);
+				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
+
+				if (field.getCard() != null) {
+					for (int k = 0; k < command_names.length; k++) {
+						if (field.getCard().command.displayName.equals(command_names[k])) {
+							rs.updateInt(FIELD_COMMAND, k);
+							break;
+						}
+					}
+				}
+				rs.insertRow();
+			}
+		}
+		rs.close();
 	}
 
 	private void loadCardFieldsFromDB(Board game) throws SQLException {
