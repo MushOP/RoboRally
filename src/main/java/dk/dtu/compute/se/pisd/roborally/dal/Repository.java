@@ -227,7 +227,7 @@ class Repository implements IRepository {
 				// TODO  error handling
 				return null;
 			}
-			loadCardFieldsFromDB(game);
+			//loadCardFieldsFromDB(game);
 			return game;
 		} catch (SQLException e) {
 			// TODO error handling

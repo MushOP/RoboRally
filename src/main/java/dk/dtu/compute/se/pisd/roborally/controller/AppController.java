@@ -104,7 +104,21 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implememted eventually
 
-        repository.loadGameFromDB(2);
+        if (gameController != null) {
+            // The UI should not allow this, but in case this happens anyway.
+            // give the user the option to save the game or abort this operation!
+            if (!stopGame()) {
+                return;
+            }
+        }
+        Board game;
+        game = repository.loadGameFromDB(9);
+        if (game == null) {
+            return;
+        }
+
+        gameController = new GameController(game);
+        roboRally.createBoardView(gameController);
     }
 
     /**
