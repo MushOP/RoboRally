@@ -89,7 +89,7 @@ public class AppController implements Observer {
 
         // XXX needs to be implemented eventually
         Board game = gameController.board;
-        if(game.getGameId() == null){
+        if (game.getGameId() == null){
             repository.createGameInDB(game);
         }
         else {
@@ -104,7 +104,7 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implememted eventually
 
-        repository.loadGameFromDB(4);
+        repository.loadGameFromDB(2);
     }
 
     /**

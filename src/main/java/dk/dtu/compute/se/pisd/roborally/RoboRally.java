@@ -107,7 +107,7 @@ public class RoboRally extends Application {
         IRepository repository = RepositoryAccess.getRepository();
         repository.getGames();
         launch(args);
-        repository.loadGameFromDB(5);
+        //repository.loadGameFromDB(5);
     }
 
     static class test {

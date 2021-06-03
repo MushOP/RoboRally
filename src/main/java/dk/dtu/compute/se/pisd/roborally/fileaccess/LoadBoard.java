@@ -47,6 +47,7 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
+
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
@@ -71,6 +72,7 @@ public class LoadBoard {
 			// fileReader = new FileReader(filename);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
 			BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+
 
 			result = new Board(template.width, template.height);
 			for (SpaceTemplate spaceTemplate: template.spaces) {
@@ -97,6 +99,7 @@ public class LoadBoard {
 		}
 		return null;
     }
+
 
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
@@ -157,5 +160,4 @@ public class LoadBoard {
             }
         }
     }
-
 }

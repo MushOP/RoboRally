@@ -185,6 +185,7 @@ class Repository implements IRepository {
 	
 	@Override
 	public Board loadGameFromDB(int id) {
+
 		Board game;
 		try {
 			// TODO here, we could actually use a simpler statement
