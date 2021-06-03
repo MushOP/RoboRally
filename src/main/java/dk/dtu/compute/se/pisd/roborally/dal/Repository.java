@@ -161,9 +161,9 @@ class Repository implements IRepository {
 			rs.close();
 
 			updatePlayersInDB(game);
-			/* TOODO this method needs to be implemented first
+			// TOODO this method needs to be implemented first
 			updateCardFieldsInDB(game);
-			*/
+
 
             connection.commit();
             connection.setAutoCommit(true);
@@ -325,6 +325,27 @@ class Repository implements IRepository {
 		}
 		rs.close();
 	}
+	private void updatePlayersInDB(Board game) throws SQLException {
+		PreparedStatement ps = getSelectPlayersStatementU();
+		ps.setInt(1, game.getGameId());
+
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			int playerId = rs.getInt(PLAYER_PLAYERID);
+			// TODO should be more defensive
+			Player player = game.getPlayer(playerId);
+			// rs.updateString(PLAYER_NAME, player.getName()); // not needed: player's names does not change
+			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
+			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
+			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
+			// TODO error handling
+			// TODO take care of case when number of players changes, etc
+			rs.updateRow();
+		}
+		rs.close();
+
+		// TODO error handling/consistency check: check whether all players were updated
+	}
 
 	private void updateCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
@@ -335,16 +356,13 @@ class Repository implements IRepository {
 
 		ResultSet rs = ps.executeQuery();
 
-		for (int i = 0; i < game.getPlayersNumber(); i++) {
-
-			Player player = game.getPlayer(i);
+		while(rs.next()) {
+			int playerid = rs.getInt(FIELD_PLAYERID);
+			Player player = game.getPlayer(playerid);
 
 			for (int j = 0; j < nprogramcard; j++) {
-				rs.moveToInsertRow();
 
 				CommandCardField field = player.getProgramField(j);
-				rs.updateInt(FIELD_GAMEID, game.getGameId());
-				rs.updateInt(FIELD_PLAYERID, i);
 				rs.updateInt(FIELD_TYPE, FIELD_TYPE_REGISTER);
 				rs.updateInt(FIELD_POS, j);
 				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
@@ -357,15 +375,12 @@ class Repository implements IRepository {
 						}
 					}
 				}
-				rs.insertRow();
+				rs.updateRow();
 			}
 
 			for (int l = 0; l < nhandcard; l++) {
-				rs.moveToInsertRow();
 
 				CommandCardField field = player.getCardField(l);
-				rs.updateInt(FIELD_GAMEID, game.getGameId());
-				rs.updateInt(FIELD_PLAYERID, i);
 				rs.updateInt(FIELD_TYPE, FIELD_TYPE_HAND);
 				rs.updateInt(FIELD_POS, l);
 				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
@@ -378,7 +393,7 @@ class Repository implements IRepository {
 						}
 					}
 				}
-				rs.insertRow();
+				rs.updateRow();
 			}
 		}
 		rs.close();
@@ -456,28 +471,6 @@ class Repository implements IRepository {
 			}
 		}
 		rs.close();
-	}
-	
-	private void updatePlayersInDB(Board game) throws SQLException {
-		PreparedStatement ps = getSelectPlayersStatementU();
-		ps.setInt(1, game.getGameId());
-		
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-			int playerId = rs.getInt(PLAYER_PLAYERID);
-			// TODO should be more defensive
-			Player player = game.getPlayer(playerId);
-			// rs.updateString(PLAYER_NAME, player.getName()); // not needed: player's names does not change
-			rs.updateInt(PLAYER_POSITION_X, player.getSpace().x);
-			rs.updateInt(PLAYER_POSITION_Y, player.getSpace().y);
-			rs.updateInt(PLAYER_HEADING, player.getHeading().ordinal());
-			// TODO error handling
-			// TODO take care of case when number of players changes, etc
-			rs.updateRow();
-		}
-		rs.close();
-		
-		// TODO error handling/consistency check: check whether all players were updated
 	}
 
 	private static final String SQL_INSERT_GAME =
