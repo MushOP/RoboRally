@@ -325,6 +325,64 @@ class Repository implements IRepository {
 		}
 		rs.close();
 	}
+
+	private void updateCardFieldsInDB(Board game) throws SQLException {
+		// TODO code should be more defensive
+		PreparedStatement ps = getSelectCardFieldStatement();
+		ps.setInt(1, game.getGameId());
+		int nhandcard = 8;
+		int nprogramcard = 5;
+
+		ResultSet rs = ps.executeQuery();
+
+		for (int i = 0; i < game.getPlayersNumber(); i++) {
+
+			Player player = game.getPlayer(i);
+
+			for (int j = 0; j < nprogramcard; j++) {
+				rs.moveToInsertRow();
+
+				CommandCardField field = player.getProgramField(j);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE, FIELD_TYPE_REGISTER);
+				rs.updateInt(FIELD_POS, j);
+				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
+
+				if (field.getCard() != null) {
+					for (int k = 0; k < command_names.length; k++) {
+						if (field.getCard().command.displayName.equals(command_names[k])) {
+							rs.updateInt(FIELD_COMMAND, k);
+							break;
+						}
+					}
+				}
+				rs.insertRow();
+			}
+
+			for (int l = 0; l < nhandcard; l++) {
+				rs.moveToInsertRow();
+
+				CommandCardField field = player.getCardField(l);
+				rs.updateInt(FIELD_GAMEID, game.getGameId());
+				rs.updateInt(FIELD_PLAYERID, i);
+				rs.updateInt(FIELD_TYPE, FIELD_TYPE_HAND);
+				rs.updateInt(FIELD_POS, l);
+				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
+
+				if (field.getCard() != null) {
+					for (int k = 0; k < command_names.length; k++) {
+						if (field.getCard().command.displayName.equals(command_names[k])) {
+							rs.updateInt(FIELD_COMMAND, k);
+							break;
+						}
+					}
+				}
+				rs.insertRow();
+			}
+		}
+		rs.close();
+	}
 	
 	@Override
 	public List<GameInDB> getGames() {
