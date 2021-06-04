@@ -353,18 +353,19 @@ class Repository implements IRepository {
 		ps.setInt(1, game.getGameId());
 		int nhandcard = 8;
 		int nprogramcard = 5;
+		int c = 0;
 
 		ResultSet rs = ps.executeQuery();
 
 		while(rs.next()) {
 			int playerid = rs.getInt(FIELD_PLAYERID);
 			Player player = game.getPlayer(playerid);
+			CommandCardField field;
 
-			for (int j = 0; j < nprogramcard; j++) {
-
-				CommandCardField field = player.getProgramField(j);
+			if (c < 5) {
+				field = player.getProgramField(c);
 				rs.updateInt(FIELD_TYPE, FIELD_TYPE_REGISTER);
-				rs.updateInt(FIELD_POS, j);
+				rs.updateInt(FIELD_POS, c);
 				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
 
 				if (field.getCard() != null) {
@@ -374,15 +375,13 @@ class Repository implements IRepository {
 							break;
 						}
 					}
-				}
-				rs.updateRow();
+				} else rs.updateString(FIELD_COMMAND, null);
 			}
 
-			for (int l = 0; l < nhandcard; l++) {
-
-				CommandCardField field = player.getCardField(l);
+			else {
+				field = player.getCardField(c-5);
 				rs.updateInt(FIELD_TYPE, FIELD_TYPE_HAND);
-				rs.updateInt(FIELD_POS, l);
+				rs.updateInt(FIELD_POS, c-5);
 				rs.updateBoolean(FIELD_VISIBLE, field.isVisible());
 
 				if (field.getCard() != null) {
@@ -392,9 +391,14 @@ class Repository implements IRepository {
 							break;
 						}
 					}
-				}
-				rs.updateRow();
+				} else rs.updateString(FIELD_COMMAND, null);
 			}
+
+			c++;
+			if (c >= 13) {
+				c = 0;
+			}
+			rs.updateRow();
 		}
 		rs.close();
 	}
