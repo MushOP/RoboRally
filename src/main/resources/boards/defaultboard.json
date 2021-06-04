@@ -4,12 +4,7 @@
   "spaces": [
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "SOUTH"
-          }
-        }
+          "SOUTH"
       ],
       "actions": [
         {
@@ -24,12 +19,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
-        }
+        "SOUTH"
       ],
       "actions": [
         {
@@ -44,12 +34,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "WEST"
-          }
-        }
+        "SOUTH"
       ],
       "actions": [
         {
@@ -129,12 +114,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
-        }
+          "NORTH"
       ],
       "actions": [
         {
@@ -149,12 +129,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
-        }
+        "NORTH"
       ],
       "actions": [
         {
@@ -169,12 +144,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "SOUTH"
-          }
-        }
+        "NORTH"
       ],
       "actions": [
         {
@@ -189,12 +159,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "WEST"
-          }
-        }
+        "NORTH"
       ],
       "actions": [
         {
@@ -209,12 +174,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "NORTH"
-          }
-        }
+        "NORTH"
       ],
       "actions": [
         {
@@ -229,12 +189,7 @@
     },
     {
       "walls": [
-        {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Wall",
-          "INSTANCE": {
-            "heading": "EAST"
-          }
-        }
+        "NORTH"
       ],
       "actions": [
         {

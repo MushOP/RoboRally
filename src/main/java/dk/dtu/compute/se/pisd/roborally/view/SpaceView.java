@@ -108,20 +108,20 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    public void showWalls(@NotNull ArrayList<Wall> walls) {
+    public void showWalls(@NotNull ArrayList<Heading> walls) {
 
         for (int i = 0; i < walls.size(); i++) {
 
-            if (walls.get(i).heading == Heading.NORTH) {
+            if (walls.get(i) == Heading.NORTH) {
                 showWall(0,2,SPACE_WIDTH,2);
 
-            } else if (walls.get(i).heading == Heading.EAST) {
+            } else if (walls.get(i) == Heading.EAST) {
                 showWall(SPACE_WIDTH-2,0,SPACE_WIDTH-2,SPACE_HEIGHT);
 
-            } else if (walls.get(i).heading == Heading.SOUTH) {
+            } else if (walls.get(i) == Heading.SOUTH) {
                 showWall(0,SPACE_HEIGHT-2,SPACE_WIDTH,SPACE_HEIGHT-2);
 
-            } else if (walls.get(i).heading == Heading.WEST) {
+            } else if (walls.get(i) == Heading.WEST) {
                 showWall(2,0,2,SPACE_HEIGHT);
 
             }

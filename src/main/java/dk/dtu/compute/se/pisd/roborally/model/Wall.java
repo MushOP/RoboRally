@@ -11,4 +11,11 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 public class Wall {
     public Heading heading;
 
+    public Heading getHeading() {
+        return this.heading;
+    }
+
+    public void setHeading(Heading heading) {
+        this.heading = heading;
+    }
 }

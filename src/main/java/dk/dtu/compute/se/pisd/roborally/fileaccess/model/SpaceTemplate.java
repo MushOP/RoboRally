@@ -36,7 +36,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Wall;
  */
 public class SpaceTemplate {
 
-    public List<Wall> walls = new ArrayList<>();
+    public List<Heading> walls = new ArrayList<>();
     public List<FieldAction> actions = new ArrayList<>();
 
     public int x;
