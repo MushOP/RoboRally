@@ -1,5 +1,9 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * ...
  *
@@ -8,12 +12,17 @@ package dk.dtu.compute.se.pisd.roborally.model;
  * @author Muaz
  */
 
-public class Checkpoint {
+public class Checkpoint extends FieldAction {
     int ID;
     public Checkpoint(int ID){
         this.ID = ID;
     }
     public int getID(){
         return ID;
+    }
+
+    @Override
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+        return false;
     }
 }

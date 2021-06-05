@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class Space extends Subject {
     public final int y;
     private List<FieldAction> actions = new ArrayList<>();
     public ArrayList<Heading> walls = new ArrayList<>();
-    ArrayList<Checkpoint> checkpoints = new ArrayList<>();
     private Player player;
 
     public Space(Board board, int x, int y) {
@@ -49,54 +49,6 @@ public class Space extends Subject {
         this.y = y;
         player = null;
         checkpoint = null;
-        if (x == 2 && y == 2 || x == 2 && y == 3) {
-
-//            for (int i = 0; i < 2; i++) {
-//
-//                walls.add(new Wall());
-//
-//                if (i == 0) {
-//                    walls.get(i).heading = Heading.NORTH;
-//
-//                } else {
-//                    walls.get(i).heading = Heading.EAST;
-//
-//                }
-//            }
-        }
-        if (x == 4 && y == 2 || x == 4 && y == 3) {
-
-//            for (int i = 0; i < 2; i++) {
-//
-//                walls.add(new Wall());
-//
-//                if (i == 0) {
-//                    walls.get(i).heading = Heading.WEST;
-//
-//                } else {
-//                    walls.get(i).heading = Heading.SOUTH;
-//
-//                }
-//            }
-        }
-        if (x == 5 && y == 4) {
-            checkpoint = new Checkpoint(1);
-        }
-        else if (x == 4 && y == 3) {
-            checkpoint = new Checkpoint(2);
-        }
-        else if (x == 2 && y == 3) {
-            checkpoint = new Checkpoint(3);
-        }
-        else if (x == 3 && y == 4) {
-            checkpoint = new Checkpoint(4);
-        }
-        else if (x == 2 && y == 5) {
-            checkpoint = new Checkpoint(5);
-        }
-        else if (x == 1 && y == 3) {
-            checkpoint = new Checkpoint(6);
-        }
     }
 
     public Player getPlayer() {
@@ -118,6 +70,7 @@ public class Space extends Subject {
             notifyChange();
         }
     }
+
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
@@ -149,5 +102,14 @@ public class Space extends Subject {
     }
     public List<FieldAction> getActions() {
         return actions;
+    }
+
+    public boolean isActionType(Object type) {
+        for (int i = 0; i < actions.size(); i++) {
+            if (actions.get(i).getClass() == type) {
+                return true;
+            }
+        }
+        return false;
     }
 }
