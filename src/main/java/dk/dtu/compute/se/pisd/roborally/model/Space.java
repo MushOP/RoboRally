@@ -112,4 +112,14 @@ public class Space extends Subject {
         }
         return false;
     }
+
+    public FieldAction getAction(Object type) {
+        for (int i = 0; i < actions.size(); i++) {
+            FieldAction action = actions.get(i);
+            if (actions.get(i).getClass() == type) {
+                return action;
+            }
+        }
+        return null;
+    }
 }

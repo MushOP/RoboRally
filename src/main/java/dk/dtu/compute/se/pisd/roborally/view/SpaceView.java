@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -76,7 +77,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().clear();
         Player player = space.getPlayer();
         showWalls(space.getWalls());
-        showCbelt();
+        showRCBelt();
         updateCheckpoint();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
@@ -147,11 +148,21 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().add(canvas);
     }
 
-    private void showCbelt() {
+
+    private void showRCBelt() {
         if (space.isActionType(ConveyorBelt.class)) {
-            Circle circle= new Circle(10.0);
-            circle.setFill(Color.PURPLE);
-            this.getChildren().add(circle);
+            FieldAction conveyerbelt = space.getAction(ConveyorBelt.class);
+            Polygon arrow = new Polygon(0.0, 0.0,
+                    16.0, 32.0,
+                    32.0, 0.0 );
+            try {
+                arrow.setFill(Color.AQUA);
+            } catch (Exception e) {
+                arrow.setFill(Color.MEDIUMPURPLE);
+            }
+
+            arrow.setRotate((90*((ConveyorBelt) conveyerbelt).getHeading().ordinal())%360);
+            this.getChildren().add(arrow);
         }
     }
 }
