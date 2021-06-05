@@ -351,8 +351,6 @@ class Repository implements IRepository {
 		// TODO code should be more defensive
 		PreparedStatement ps = getSelectCardFieldStatement();
 		ps.setInt(1, game.getGameId());
-		int nhandcard = 8;
-		int nprogramcard = 5;
 		int c = 0;
 
 		ResultSet rs = ps.executeQuery();
