@@ -22,24 +22,42 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author Jens Helmer Olesen
  *
  */
-public abstract class FieldAction {
+public class RotationBelt extends FieldAction {
+    private static final int RIGHT = 0;
+    private static final int LEFT = 1;
+    private int direction;
 
-    /**
-     * Executes the field action for a given space. In order to be able to do
-     * that the GameController associated with the game is passed to this method.
-     *
-     * @param gameController the gameController of the respective game
-     * @param space the space this action should be executed for
-     * @return whether the action was successfully executed
-     */
-    public abstract boolean doAction(GameController gameController, Space space);
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+    public int getDirection() {
+        return direction;
+    }
 
+    @Override
+    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+        // TODO needs to be implemented
+
+        if (space.getPlayer() != null) {
+            Player player = space.getPlayer();
+            if (direction == RIGHT) {
+                gameController.turnRight(player);
+            } else if (direction == LEFT) {
+                gameController.turnLeft(player);
+            }
+            return true;
+        }
+        return false;
+    }
 }

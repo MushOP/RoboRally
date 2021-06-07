@@ -160,6 +160,14 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
+                        GameController gameController = new GameController(board);
+                        for (int i = 0; i < board.getPlayersNumber(); i++) {
+                            if (board.getPlayer(i).getSpace().getActions().size() != 0) {
+                                for (int j = 0; j < board.getPlayer(i).getSpace().getActions().size(); j++) {
+                                    board.getPlayer(i).getSpace().getActions().get(j).doAction(gameController, board.getPlayer(i).getSpace());
+                                }
+                            }
+                        }
                         startProgrammingPhase();
                     }
                 }

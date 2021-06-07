@@ -77,7 +77,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().clear();
         Player player = space.getPlayer();
         showWalls(space.getWalls());
-        showRCBelt();
+        showCBelt();
         updateCheckpoint();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
@@ -149,10 +149,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 
-    private void showRCBelt() {
+    private void showCBelt() {
         if (space.isActionType(ConveyorBelt.class)) {
             FieldAction conveyerbelt = space.getAction(ConveyorBelt.class);
-            Polygon arrow = new Polygon(0.0, 0.0,
+            Polygon arrow = new Polygon(00.0, 00.0,
                     16.0, 32.0,
                     32.0, 0.0 );
             try {

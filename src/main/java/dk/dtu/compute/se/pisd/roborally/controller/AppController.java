@@ -105,21 +105,29 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implememted eventually
 
-        if (gameController != null) {
-            // The UI should not allow this, but in case this happens anyway.
-            // give the user the option to save the game or abort this operation!
-            if (!stopGame()) {
+        ChoiceDialog<GameInDB> dialog = new ChoiceDialog<>(repository.getGames().get(0), repository.getGames());
+        dialog.setTitle("Saved games");
+        dialog.setHeaderText("Select game");
+        Optional<GameInDB> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            if (gameController != null) {
+                // The UI should not allow this, but in case this happens anyway.
+                // give the user the option to save the game or abort this operation!
+                if (!stopGame()) {
+                    return;
+                }
+            }
+            int gameID = result.get().id;
+
+            Board game = repository.loadGameFromDB(gameID);
+            if (game == null) {
                 return;
             }
-        }
-        Board game;
-        game = repository.loadGameFromDB(32);
-        if (game == null) {
-            return;
-        }
+            gameController = new GameController(game);
 
-        gameController = new GameController(game);
-        roboRally.createBoardView(gameController);
+            roboRally.createBoardView(gameController);
+        }
     }
 
     /**
