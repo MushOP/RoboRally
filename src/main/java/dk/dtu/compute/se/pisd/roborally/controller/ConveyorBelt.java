@@ -48,8 +48,6 @@ public class ConveyorBelt extends FieldAction {
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
         // TODO needs to be implemented
-
-            //Board board = board;
             Player player = space.getPlayer();
 
             if (player != null) {
@@ -59,9 +57,6 @@ public class ConveyorBelt extends FieldAction {
                             target.canMoveTo(heading, true) &&
                             space.canMoveTo(heading, false)){
                         player.setSpace(target);
-                        if (target.getCheckpoint() != null){
-                            player.landCheckpoint(target.getCheckpoint().getID());
-                        }
                         return true;
                     }
                 }

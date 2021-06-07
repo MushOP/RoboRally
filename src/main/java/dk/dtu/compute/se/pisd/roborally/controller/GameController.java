@@ -160,15 +160,12 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
-                        GameController gameController = new GameController(board);
-                        for (int i = 0; i < board.getPlayersNumber(); i++) {
-                            if (board.getPlayer(i).getSpace().getActions().size() != 0) {
-                                for (int j = 0; j < board.getPlayer(i).getSpace().getActions().size(); j++) {
-                                    board.getPlayer(i).getSpace().getActions().get(j).doAction(gameController, board.getPlayer(i).getSpace());
-                                }
-                            }
+                        doActions();
+                        if (checkWinCondition() > 0) {
+                            int winPlayer = checkWinCondition();
+                        } else {
+                            startProgrammingPhase();
                         }
-                        startProgrammingPhase();
                     }
                 }
             } else {
@@ -241,15 +238,18 @@ public class GameController {
                     target.canMoveTo(player.getHeading(), true) &&
                     current.canMoveTo(player.getHeading(), false)){
                 player.setSpace(target);
-                if (target.getCheckpoint() != null){
-                    player.landCheckpoint(target.getCheckpoint().getID());
-                }
             }
         }
     }
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
+        moveForward(player);
+        moveForward(player);
+    }
+
+    public void tripleForward(@NotNull Player player) {
+        moveForward(player);
         moveForward(player);
         moveForward(player);
     }
@@ -288,6 +288,26 @@ public class GameController {
         }
     }
 
+    private boolean  doActions() {
+        GameController gameController = new GameController(board);
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getSpace().getActions().size() != 0) {
+                for (int j = 0; j < board.getPlayer(i).getSpace().getActions().size(); j++) {
+                    if (!(board.getPlayer(i).getSpace().getActions().get(j).doAction(gameController, board.getPlayer(i).getSpace())));
+                }
+            }
+        }
+        return true;
+    }
+    private int checkWinCondition() {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            if (board.getPlayer(i).getScore() == 1) {
+                System.out.println("player " + i + " wins!");
+                return i;
+            }
+        }
+        return -1;
+    }
     /**
      * A method called when no corresponding controller operation is implemented yet. This
      * should eventually be removed.

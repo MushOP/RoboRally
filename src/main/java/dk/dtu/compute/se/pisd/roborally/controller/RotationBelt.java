@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ...
  *
- * @author Jens Helmer Olesen
+ * @author Jens Olesen
  *
  */
 public class RotationBelt extends FieldAction {

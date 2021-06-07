@@ -133,7 +133,7 @@ public class Player extends Subject {
                 unique = false;
             }
         }
-        if (unique = true){
+        if (unique){
             landedCheckpoints.add(ID);
             changeScore(1);
         }
@@ -149,6 +149,10 @@ public class Player extends Subject {
 
     public CommandCardField getCardField(int i) {
         return cards[i];
+    }
+
+    public int getScore(){
+        return this.score;
     }
 
 }

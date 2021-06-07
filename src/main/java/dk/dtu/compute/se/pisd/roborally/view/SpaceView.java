@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.RotationBelt;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -78,6 +79,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         Player player = space.getPlayer();
         showWalls(space.getWalls());
         showCBelt();
+        showRotationBelt();
         updateCheckpoint();
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
@@ -102,6 +104,20 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(circle);
         }
     }
+
+    private void showRotationBelt() {
+        if (space.isActionType(RotationBelt.class)) {
+            Circle circle= new Circle(10.0);
+            RotationBelt rotationBelt = ((RotationBelt) space.getActions().get(0));
+            if (rotationBelt.getDirection() == 0) {
+                circle.setFill(Color.GREEN);
+            } else {
+                circle.setFill(Color.RED);
+            }
+            this.getChildren().add(circle);
+        }
+    }
+
 
 
     @Override
