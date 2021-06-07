@@ -161,11 +161,13 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         doActions();
-                        if (checkWinCondition() > 0) {
-                            int winPlayer = checkWinCondition();
-                        } else {
+
+//                        if (checkWinCondition() > 0) {
+//                            int winPlayer = checkWinCondition();
+//                        } else {
                             startProgrammingPhase();
-                        }
+//                        }
+
                     }
                 }
             } else {

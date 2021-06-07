@@ -56,7 +56,7 @@ class Repository implements IRepository {
 	private static final String FIELD_POS = "position";
 	private static final String FIELD_VISIBLE = "visible";
 	private static final String FIELD_COMMAND = "command";
-	private static final String[] command_names = new String[] {"Fwd", "Turn Right", "Turn Left", "Fast Fwd", "Left OR Right"};
+	private static final String[] command_names = new String[] {"Fwd", "Turn Right", "Turn Left", "Fast Fwd", "Left OR Right, Forward or Fast Forward"};
 
 	private Connector connector;
 	Repository(Connector connector){
