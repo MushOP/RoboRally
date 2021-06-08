@@ -164,7 +164,8 @@ public class GameController {
                     } else {
                         doActions();
 
-                        if (checkWinCondition() > 0) {
+                        int winner = checkWinCondition();
+                        if (winner > 0) {
 
                         } //else {
                             startProgrammingPhase();

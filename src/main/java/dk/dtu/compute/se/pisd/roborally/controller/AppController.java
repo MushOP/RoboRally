@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.dal.GameInDB;
 import dk.dtu.compute.se.pisd.roborally.dal.IRepository;
 import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
@@ -48,6 +49,7 @@ import java.util.Optional;
 public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    final private List<String> BOARD_OPTIONS = Arrays.asList("defaultboard", "test");
     final private RoboRally roboRally;
     final private IRepository repository;
     private GameController gameController;
@@ -69,20 +71,28 @@ public class AppController implements Observer {
                     return;
                 }
             }
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
-            gameController = new GameController(board);
-            int no = result.get();
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
+            ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_OPTIONS.get(0), BOARD_OPTIONS);
+            boardDialog.setTitle("Board");
+            boardDialog.setHeaderText("Select board");
+            Optional<String> boardResult = boardDialog.showAndWait();
+            if (boardResult.isPresent()) {
+                // XXX the board should eventually be created programmatically or loaded from a file
+                //     here we just create an empty board with the required number of players.
+                Board board = LoadBoard.loadBoard(boardResult.get());
+                if (board != null) {
+                    gameController = new GameController(board);
+                    int no = result.get();
+                    for (int i = 0; i < no; i++) {
+                        Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                        board.addPlayer(player);
+                        player.setSpace(board.getSpace(i % board.width, i));
+                    }
+                    // XXX: V2
+                    board.setCurrentPlayer(board.getPlayer(0));
+                    gameController.startProgrammingPhase();
+                    roboRally.createBoardView(gameController);
+                }
             }
-            // XXX: V2
-            board.setCurrentPlayer(board.getPlayer(0));
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
         }
     }
     public void saveGame() {
