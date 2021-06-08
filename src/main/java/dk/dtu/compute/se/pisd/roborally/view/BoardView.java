@@ -88,7 +88,7 @@ public class BoardView extends VBox implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            Phase phase = board.getPhase();
+            //Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
             checkpointLabel.setText(board.getPlayerCheckpoint());
         }

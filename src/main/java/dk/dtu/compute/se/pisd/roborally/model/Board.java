@@ -172,10 +172,9 @@ public class Board extends Subject {
     }
 
     public String getPlayerCheckpoint() {
-        String string = "";
+        String string = "\nCheckpointscore\n";
         for (Player p : players) {
-            string+= p.getName()+"-"+p.getScore()+"\n";
-
+            string+= p.getName()+" - "+p.getScore()+"\n";
         }
         return string;
     }

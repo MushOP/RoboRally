@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.ExitDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -163,13 +164,12 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         doActions();
-
                         int winner = checkWinCondition();
-                        if (winner > 0) {
-
-                        } //else {
-                            startProgrammingPhase();
-//                        }
+                        if (winner > -1) {
+                            ExitDialog.showDialog(winner);
+                            System.exit(0);
+                        }
+                        startProgrammingPhase();
                     }
                 }
             } else {
@@ -307,7 +307,6 @@ public class GameController {
         int checkpointQuantity = board.getCheckpointNumber();
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             if (board.getPlayer(i).getScore() == checkpointQuantity) {
-                System.out.println("player " + i + " wins!");
                 return i;
             }
         }
