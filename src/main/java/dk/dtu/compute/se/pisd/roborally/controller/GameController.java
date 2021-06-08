@@ -252,12 +252,6 @@ public class GameController {
         moveForward(player);
     }
 
-    public void tripleForward(@NotNull Player player) {
-        moveForward(player);
-        moveForward(player);
-        moveForward(player);
-    }
-
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
 
@@ -291,7 +285,10 @@ public class GameController {
             return false;
         }
     }
-
+    /**
+     * @author Jens Olesen
+     * Executes the actions of any field that a player is positioned on
+     */
     private boolean  doActions() {
         GameController gameController = new GameController(board);
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -312,7 +309,10 @@ public class GameController {
         }
         return -1;
     }
-
+    /**
+     * @author Jens Olesen
+     * Method that updates a player's score when they land on a checkpoint
+     */
     public void landCheckpoint(int ID, Player player){
         boolean unique = true;
         ArrayList<Integer> landedCheckpoints = player.getLandedCheckpoints();

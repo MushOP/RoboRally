@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
  * ...
  *
  * @author Jens Olesen
- *
+ * An object on a space than can turn a player
  */
 public class RotationBelt extends FieldAction {
     private static final int RIGHT = 0;
