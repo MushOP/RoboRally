@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 /**
  * This is the controller class responsible for execution of phases and cards
  *
@@ -162,12 +164,11 @@ public class GameController {
                     } else {
                         doActions();
 
-//                        if (checkWinCondition() > 0) {
-//                            int winPlayer = checkWinCondition();
-//                        } else {
+                        if (checkWinCondition() > 0) {
+
+                        } //else {
                             startProgrammingPhase();
 //                        }
-
                     }
                 }
             } else {
@@ -302,13 +303,28 @@ public class GameController {
         return true;
     }
     private int checkWinCondition() {
+        int checkpointQuantity = board.getCheckpointNumber();
         for (int i = 0; i < board.getPlayersNumber(); i++) {
-            if (board.getPlayer(i).getScore() == 1) {
+            if (board.getPlayer(i).getScore() == checkpointQuantity) {
                 System.out.println("player " + i + " wins!");
                 return i;
             }
         }
         return -1;
+    }
+
+    public void landCheckpoint(int ID, Player player){
+        boolean unique = true;
+        ArrayList<Integer> landedCheckpoints = player.getLandedCheckpoints();
+        for (int i = 0; i < player.getLandedCheckpoints().size(); i++){
+            if(landedCheckpoints.get(i) == ID){
+                unique = false;
+            }
+        }
+        if (unique){
+            landedCheckpoints.add(ID);
+            player.changeScore(1);
+        }
     }
     /**
      * A method called when no corresponding controller operation is implemented yet. This

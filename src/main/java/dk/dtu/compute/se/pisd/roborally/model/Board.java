@@ -171,6 +171,27 @@ public class Board extends Subject {
         }
     }
 
+    public String getPlayerCheckpoint() {
+        String string = "";
+        for (Player p : players) {
+            string+= p.getName()+"-"+p.getScore()+"\n";
+
+        }
+        return string;
+    }
+    
+    public int getCheckpointNumber() {
+        int result = 0;
+        for (int i = 0; i < spaces.length; i++) {
+            for (int j = 0; j < spaces[i].length; j++) {
+                if (spaces[i][j].isActionType(Checkpoint.class)) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space

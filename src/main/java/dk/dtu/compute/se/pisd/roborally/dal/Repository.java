@@ -39,6 +39,7 @@ class Repository implements IRepository {
 	private static final String GAME_GAMEID = "gameID";
 	private static final String GAME_NAME = "name";
 	private static final String GAME_CURRENTPLAYER = "currentPlayer";
+	private static final String BOARD_NAME = "boardName";
 	private static final String GAME_PHASE = "phase";
 	private static final String GAME_STEP = "step";
 	private static final String PLAYER_PLAYERID = "playerID";
@@ -56,7 +57,7 @@ class Repository implements IRepository {
 	private static final String FIELD_POS = "position";
 	private static final String FIELD_VISIBLE = "visible";
 	private static final String FIELD_COMMAND = "command";
-	private static final String[] command_names = new String[] {"Fwd", "Turn Right", "Turn Left", "Fast Fwd", "Left OR Right, Forward or Fast Forward"};
+	private static final String[] command_names = new String[] {"Fwd", "Turn Right", "Turn Left", "Fast Fwd", "Left OR Right", "Fwd or Fast Fwd"};
 
 	private Connector connector;
 	Repository(Connector connector){
@@ -76,6 +77,7 @@ class Repository implements IRepository {
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
+				ps.setString(5, game.boardName);
 
 				// If you have a foreign key constraint for current players,
 				// the check would need to be temporarily disabled, since
@@ -205,11 +207,13 @@ class Repository implements IRepository {
 				// game = new Board(width,height);
 				// TODO and we should also store the used game board in the database
 				//      for now, we use the default game board
-				game = LoadBoard.loadBoard(null);
+				String boardName = rs.getString(BOARD_NAME);
+				game = LoadBoard.loadBoard(boardName);
 				if (game == null) {
 					return null;
 				}
 				playerNo = rs.getInt(GAME_CURRENTPLAYER);
+
 				// TODO currently we do not set the games name (needs to be added)
 
 				game.setPhase(Phase.values()[rs.getInt(GAME_PHASE)]);
@@ -476,7 +480,7 @@ class Repository implements IRepository {
 	}
 
 	private static final String SQL_INSERT_GAME =
-			"INSERT INTO Game(name, currentPlayer, phase, step) VALUES (?, ?, ?, ?)";
+			"INSERT INTO Game(name, currentPlayer, phase, step, boardName) VALUES (?, ?, ?, ?, ?)";
 
 	private PreparedStatement insert_game_stmt = null;
 

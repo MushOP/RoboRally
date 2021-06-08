@@ -23,8 +23,8 @@ public class Checkpoint extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-
-        space.getPlayer().landCheckpoint(ID);
+        Player player = space.getPlayer();
+        gameController.landCheckpoint(ID,player);
         return true;
     }
 }

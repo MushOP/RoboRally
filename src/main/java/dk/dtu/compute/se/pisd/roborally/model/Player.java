@@ -46,7 +46,7 @@ public class Player extends Subject {
     private int score;
     private Space space;
     private Heading heading = SOUTH;
-    ArrayList<Integer> landedCheckpoints;
+    private ArrayList<Integer> landedCheckpoints;
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
@@ -126,22 +126,13 @@ public class Player extends Subject {
         }
     }
 
-    public void landCheckpoint(int ID){
-        boolean unique = true;
-        for (int i = 0; i < landedCheckpoints.size(); i++){
-            if(landedCheckpoints.get(i) == ID){
-                unique = false;
-            }
-        }
-        if (unique){
-            landedCheckpoints.add(ID);
-            changeScore(1);
-        }
-    }
     public void changeScore(int point){
         score = score + point;
     }
 
+    public ArrayList<Integer> getLandedCheckpoints() {
+        return this.landedCheckpoints;
+    }
 
     public CommandCardField getProgramField(int i) {
         return program[i];

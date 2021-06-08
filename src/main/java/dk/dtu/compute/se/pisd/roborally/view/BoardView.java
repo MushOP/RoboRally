@@ -50,6 +50,7 @@ public class BoardView extends VBox implements ViewObserver {
     private PlayersView playersView;
 
     private Label statusLabel;
+    private Label checkpointLabel;
 
     private SpaceEventHandler spaceEventHandler;
 
@@ -59,10 +60,12 @@ public class BoardView extends VBox implements ViewObserver {
         mainBoardPane = new GridPane();
         playersView = new PlayersView(gameController);
         statusLabel = new Label("<no status>");
+        checkpointLabel = new Label("Checkpoint status");
 
         this.getChildren().add(mainBoardPane);
         this.getChildren().add(playersView);
         this.getChildren().add(statusLabel);
+        this.getChildren().add(checkpointLabel);
 
         spaces = new SpaceView[board.width][board.height];
 
@@ -87,6 +90,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
+            checkpointLabel.setText(board.getPlayerCheckpoint());
         }
     }
 

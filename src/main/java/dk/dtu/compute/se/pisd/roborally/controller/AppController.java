@@ -177,7 +177,7 @@ public class AppController implements Observer {
     @Override
     public void update(Subject subject) {
         // XXX do nothing for now
-
+        System.out.println("hi");
     }
 
 }
