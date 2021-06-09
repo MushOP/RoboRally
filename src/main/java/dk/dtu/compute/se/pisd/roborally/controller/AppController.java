@@ -74,7 +74,6 @@ public class AppController implements Observer {
                 }
             }
 
-
             ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_OPTIONS.get(0), BOARD_OPTIONS);
             boardDialog.setTitle("Board");
             boardDialog.setHeaderText("Select board");
@@ -102,16 +101,25 @@ public class AppController implements Observer {
     }
     public void saveGame() {
         // XXX needs to be implemented eventually
-
         Board game = gameController.board;
-        if (game.getGameId() == null){
-            repository.createGameInDB(game);
-        }
-        else {
-            for (GameInDB g : repository.getGames()) {
-                if (g.id == game.getGameId()) {
-                    repository.updateGameInDB(game);
-                    break;
+
+        TextInputDialog dialog = new TextInputDialog(game.getGameName());
+        dialog.setTitle("Save game");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter a name for your save:");
+        Optional<String> result = dialog.showAndWait();
+
+        if ((result.isPresent())){
+            //System.out.println("Your name: " + result.get());
+            game.setGameName(result.get());
+            if (game.getGameId() == null){
+                repository.createGameInDB(game);
+                } else {
+                for (GameInDB g : repository.getGames()) {
+                    if (g.id == game.getGameId()) {
+                        repository.updateGameInDB(game);
+                        break;
+                    }
                 }
             }
         }
@@ -157,7 +165,7 @@ public class AppController implements Observer {
     public boolean stopGame() {
         if (gameController != null) {
             // here we save the game (without asking the user).
-            saveGame();
+            //saveGame();
             gameController = null;
             roboRally.createBoardView(null);
             return true;

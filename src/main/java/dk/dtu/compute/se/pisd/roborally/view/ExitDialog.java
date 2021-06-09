@@ -18,8 +18,8 @@ public class ExitDialog {
     public static void showDialog(int winner) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Win screen");
-        alert.setHeaderText(null);
-        alert.setContentText("Player " + winner + " has won the game!");
+        alert.setHeaderText("Player " + winner + " has won the game!");
+        alert.setContentText("End game?");
         alert.showAndWait();
     }
 }

@@ -73,7 +73,8 @@ class Repository implements IRepository {
 				// TODO: the name should eventually set by the user
 				//       for the game and should be then used 
 				//       game.getName();
-				ps.setString(1, "Date: " +  new Date()); // instead of name
+				//ps.setString(1, "Date: " +  new Date()); // instead of name
+				ps.setString(1, game.getGameName()); // instead of name
 				ps.setNull(2, Types.TINYINT); // game.getPlayerNumber(game.getCurrentPlayer())); is inserted after players!
 				ps.setInt(3, game.getPhase().ordinal());
 				ps.setInt(4, game.getStep());
@@ -155,6 +156,7 @@ class Repository implements IRepository {
 				rs.updateInt(GAME_CURRENTPLAYER, game.getPlayerNumber(game.getCurrentPlayer()));
 				rs.updateInt(GAME_PHASE, game.getPhase().ordinal());
 				rs.updateInt(GAME_STEP, game.getStep());
+				rs.updateString(GAME_NAME, game.getGameName());
 				rs.updateRow();
 				rs.updateRow();
 			} else {
@@ -218,6 +220,8 @@ class Repository implements IRepository {
 
 				game.setPhase(Phase.values()[rs.getInt(GAME_PHASE)]);
 				game.setStep(rs.getInt(GAME_STEP));
+				game.setBoardName(rs.getString(BOARD_NAME));
+				game.setGameName(rs.getString(GAME_NAME));
 			} else {
 				// TODO error handling
 				return null;
