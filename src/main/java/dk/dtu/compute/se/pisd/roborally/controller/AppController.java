@@ -29,11 +29,13 @@ import dk.dtu.compute.se.pisd.roborally.dal.RepositoryAccess;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.view.ExitDialog;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import jdk.jfr.internal.Repository;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
@@ -49,7 +51,7 @@ import java.util.Optional;
 public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_OPTIONS = Arrays.asList("defaultboard", "test", "High Octane", "Sprint Cramp");
+    final private List<String> BOARD_OPTIONS = Arrays.asList("test", "High Octane", "Sprint Cramp");
     final private RoboRally roboRally;
     final private IRepository repository;
     private GameController gameController;
@@ -71,6 +73,8 @@ public class AppController implements Observer {
                     return;
                 }
             }
+
+
             ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_OPTIONS.get(0), BOARD_OPTIONS);
             boardDialog.setTitle("Board");
             boardDialog.setHeaderText("Select board");
@@ -81,6 +85,7 @@ public class AppController implements Observer {
                 Board board = LoadBoard.loadBoard(boardResult.get());
                 if (board != null) {
                     gameController = new GameController(board);
+                    gameController.attach(this);
                     int no = result.get();
                     for (int i = 0; i < no; i++) {
                         Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -96,8 +101,8 @@ public class AppController implements Observer {
         }
     }
     public void saveGame() {
-
         // XXX needs to be implemented eventually
+
         Board game = gameController.board;
         if (game.getGameId() == null){
             repository.createGameInDB(game);
@@ -186,9 +191,11 @@ public class AppController implements Observer {
 
     @Override
     public void update(Subject subject) {
-        // XXX do nothing for now
-        System.out.println("hi");
+        if (subject.getClass() == GameController.class) {
+            int winner = ((GameController) subject).getWinner();
+            ExitDialog.showDialog(winner);
+            stopGame();
+        }
     }
-
 }
 

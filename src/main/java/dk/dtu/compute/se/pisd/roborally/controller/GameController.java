@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.ExitDialog;
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class GameController {
+public class GameController extends Subject {
 
     final public Board board;
 
@@ -164,11 +165,7 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         doActions();
-                        int winner = checkWinCondition();
-                        if (winner > -1) {
-                            ExitDialog.showDialog(winner);
-                            System.exit(0);
-                        }
+                        checkGameOver();
                         startProgrammingPhase();
                     }
                 }
@@ -331,7 +328,13 @@ public class GameController {
         }
         return true;
     }
-    private int checkWinCondition() {
+    public void checkGameOver() {
+        if (getWinner() > -1) {
+            notifyChange();
+        }
+    }
+
+    public int getWinner() {
         int checkpointQuantity = board.getCheckpointNumber();
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             if (board.getPlayer(i).getScore() == checkpointQuantity) {
@@ -365,5 +368,4 @@ public class GameController {
         // XXX just for now to indicate that the actual method is not yet implemented
         assert false;
     }
-
 }
