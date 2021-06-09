@@ -49,7 +49,7 @@ import java.util.Optional;
 public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_OPTIONS = Arrays.asList("defaultboard", "test", "High Octane");
+    final private List<String> BOARD_OPTIONS = Arrays.asList("defaultboard", "test", "High Octane", "Sprint Cramp");
     final private RoboRally roboRally;
     final private IRepository repository;
     private GameController gameController;

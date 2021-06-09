@@ -234,16 +234,47 @@ public class GameController {
     }
 
     // TODO Assignment V2
-    public void moveForward(@NotNull Player player) {
+//    public void moveForward(@NotNull Player player) {
+//        Space current = player.getSpace();
+//        if(current != null && player.board == current.board){
+//            Space target = board.getNeighbour(current, player.getHeading());
+//            if (target != null && target.getPlayer() == null &&
+//                    target.canMoveTo(player.getHeading(), true) &&
+//                    current.canMoveTo(player.getHeading(), false)){
+//                player.setSpace(target);
+//            }
+//        }
+//    }
+    public boolean moveForward(@NotNull Player player) {
         Space current = player.getSpace();
         if(current != null && player.board == current.board){
             Space target = board.getNeighbour(current, player.getHeading());
-            if (target != null && target.getPlayer() == null &&
+            if (target != null &&
                     target.canMoveTo(player.getHeading(), true) &&
                     current.canMoveTo(player.getHeading(), false)){
-                player.setSpace(target);
+                if (target.getPlayer() == null) {
+                    player.setSpace(target);
+                    return true;
+                } else if (pushPlayer(target.getPlayer(), player.getHeading())) {
+                    player.setSpace(target);
+                    return true;
+                }
             }
         }
+        return false;
+    }
+    public boolean pushPlayer(@NotNull Player player, @NotNull Heading heading) {
+        Space current = player.getSpace();
+        if (current != null && player.board == current.board) {
+            Space target = board.getNeighbour(current, heading);
+            if (target != null && target.getPlayer() == null &&
+            target.canMoveTo(heading, true) &&
+            current.canMoveTo(heading, false)) {
+                player.setSpace(target);
+                return true;
+            }
+        }
+        return false;
     }
 
     // TODO Assignment V2

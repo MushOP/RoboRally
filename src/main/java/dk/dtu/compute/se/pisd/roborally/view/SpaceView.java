@@ -172,7 +172,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                     16.0, 32.0,
                     32.0, 0.0 );
             try {
-                arrow.setFill(Color.AQUA);
+                arrow.setFill(Color.ORANGE);
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
