@@ -148,7 +148,7 @@ public class AppController implements Observer {
                 return;
             }
             gameController = new GameController(game);
-
+            gameController.attach(this);
             roboRally.createBoardView(gameController);
         }
     }

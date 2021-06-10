@@ -103,7 +103,7 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Checkpoint",
           "INSTANCE": {
             "ID": "0"
           }
@@ -388,7 +388,7 @@
       "walls": [],
       "actions": [
         {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Checkpoint",
           "INSTANCE": {
             "ID": "0"
           }
