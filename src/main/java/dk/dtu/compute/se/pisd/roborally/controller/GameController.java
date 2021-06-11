@@ -121,14 +121,14 @@ public class GameController extends Subject {
     }
 
     // XXX: V2
-    public void executePrograms() {
-        board.setStepMode(false);
+    public void executeStep() {
+        board.setStepMode(true);
         continuePrograms();
     }
 
     // XXX: V2
-    public void executeStep() {
-        board.setStepMode(true);
+    public void executePrograms() {
+        board.setStepMode(false);
         continuePrograms();
     }
 
@@ -261,16 +261,21 @@ public class GameController extends Subject {
      * @author Jens Olesen s201729
      *
      */
-    private boolean pushPlayer(@NotNull Player player, @NotNull Heading heading) {
-        Space current = player.getSpace();
-        if (current != null && player.board == current.board) {
-            Space target = board.getNeighbour(current, heading);
-            if (target != null && target.getPlayer() == null &&
-            target.canMoveTo(heading, true) &&
-            current.canMoveTo(heading, false)) {
-                player.setSpace(target);
-                return true;
+    private boolean pushPlayer(Player player, @NotNull Heading heading) {
+        try {
+            Space current = player.getSpace();
+            if (current != null && player.board == current.board) {
+                Space target = board.getNeighbour(current, heading);
+                if (target != null && target.getPlayer() == null &&
+                        target.canMoveTo(heading, true) &&
+                        current.canMoveTo(heading, false)) {
+                    player.setSpace(target);
+                    return true;
+                }
             }
+        }
+        catch (NullPointerException e) {
+            System.out.println("player is null in pushPlayer");
         }
         return false;
     }

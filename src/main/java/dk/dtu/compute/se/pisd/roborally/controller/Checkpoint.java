@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
  */
 
 public class Checkpoint extends FieldAction {
-    int ID;
+    private int ID;
     public Checkpoint(int ID){
         this.ID = ID;
     }
