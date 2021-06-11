@@ -60,6 +60,12 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
         this.repository = RepositoryAccess.getRepository();
     }
+
+    /**
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Olesen s201729
+     */
+
     public void newGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -99,6 +105,12 @@ public class AppController implements Observer {
             }
         }
     }
+
+    /**
+     * @author Jens Olesen s201729
+     *
+     */
+
     public void saveGame() {
         // XXX needs to be implemented eventually
         Board game = gameController.board;
@@ -124,6 +136,11 @@ public class AppController implements Observer {
             }
         }
     }
+
+    /**
+     * @author Jens Olesen s201729
+     *
+     */
 
     public void loadGame() {
         // XXX needs to be implememted eventually
@@ -197,10 +214,14 @@ public class AppController implements Observer {
         // TODO needs to be implemented
     }
 
+    /**
+     * @author Jens Olesen s201729
+     *
+     */
     @Override
     public void update(Subject subject) {
         if (subject.getClass() == GameController.class) {
-            int winner = ((GameController) subject).getWinner();
+            int winner = ((GameController) subject).getWinner()+1;
             ExitDialog.showDialog(winner);
             stopGame();
         }

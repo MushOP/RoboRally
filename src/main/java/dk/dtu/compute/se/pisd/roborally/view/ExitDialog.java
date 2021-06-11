@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * ...
  *
- * @author Jens Olesen
+ * @author Jens Olesen  s201729
  * showDialog shows a screen with information when a player wins
  */
 public class ExitDialog {

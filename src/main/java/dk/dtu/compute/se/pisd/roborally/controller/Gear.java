@@ -30,7 +30,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * ...
  *
- * @author Jens Olesen
+ * @author Jens Olesen s201729
  * An object on a space than can turn a player
  */
 public class Gear extends FieldAction {

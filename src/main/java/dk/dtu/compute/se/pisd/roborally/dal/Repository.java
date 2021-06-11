@@ -63,6 +63,12 @@ class Repository implements IRepository {
 	Repository(Connector connector){
 		this.connector = connector;
 	}
+
+
+	/**
+	 * @author Ekkart Kindler, ekki@dtu.dk
+	 * @author Jens Olesen s201729
+	 */
 	@Override
 	public boolean createGameInDB(Board game) {
 		if (game.getGameId() == null) {
@@ -139,7 +145,12 @@ class Repository implements IRepository {
 		}
 		return false;
 	}
-		
+
+	/**
+	 * @author Ekkart Kindler, ekki@dtu.dk
+	 * @author Jens Olesen s201729
+	 */
+
 	@Override
 	public boolean updateGameInDB(Board game) {
 		assert game.getGameId() != null;
@@ -188,7 +199,11 @@ class Repository implements IRepository {
 
 		return false;
 	}
-	
+	/**
+	 * @author Ekkart Kindler, ekki@dtu.dk
+	 * @author Jens Olesen s201729
+	 */
+
 	@Override
 	public Board loadGameFromDB(int id) {
 
@@ -246,6 +261,11 @@ class Repository implements IRepository {
 		}
 		return null;
 	}
+
+	/**
+	 * @author Jens Olesen s201729
+	 * @author Muaz
+	 */
 
 	private void createCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive
@@ -333,6 +353,8 @@ class Repository implements IRepository {
 		}
 		rs.close();
 	}
+
+
 	private void updatePlayersInDB(Board game) throws SQLException {
 		PreparedStatement ps = getSelectPlayersStatementU();
 		ps.setInt(1, game.getGameId());
@@ -354,6 +376,11 @@ class Repository implements IRepository {
 
 		// TODO error handling/consistency check: check whether all players were updated
 	}
+
+	/**
+	 * @author Jens Olesen s201729
+	 *
+	 */
 
 	private void updateCardFieldsInDB(Board game) throws SQLException {
 		// TODO code should be more defensive

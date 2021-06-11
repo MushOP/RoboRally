@@ -138,7 +138,10 @@ public class GameController extends Subject {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
-
+    /**
+     * @author Ekkart Kindler, ekki@dtu.dk
+     * @author Jens Olesen s201729
+     */
     // XXX: V2
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
@@ -231,7 +234,10 @@ public class GameController extends Subject {
     }
 
     // TODO Assignment V2
-
+    /**
+     * @author Rachid
+     * @author Jens Olesen s201729
+     */
     public boolean moveForward(@NotNull Player player) {
         Space current = player.getSpace();
         if(current != null && player.board == current.board){
@@ -250,7 +256,12 @@ public class GameController extends Subject {
         }
         return false;
     }
-    public boolean pushPlayer(@NotNull Player player, @NotNull Heading heading) {
+
+    /**
+     * @author Jens Olesen s201729
+     *
+     */
+    private boolean pushPlayer(@NotNull Player player, @NotNull Heading heading) {
         Space current = player.getSpace();
         if (current != null && player.board == current.board) {
             Space target = board.getNeighbour(current, heading);
@@ -264,12 +275,20 @@ public class GameController extends Subject {
         return false;
     }
 
+    /**
+     * @author Rachid
+     *
+     */
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         moveForward(player);
         moveForward(player);
     }
 
+    /**
+     * @author Rachid
+     * @author Jens Olesen s201729
+     */
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
 
@@ -281,6 +300,10 @@ public class GameController extends Subject {
         }
     }
 
+    /**
+     * @author Rachid
+     * @author Jens Olesen s201729
+     */
     // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
 
@@ -304,7 +327,7 @@ public class GameController extends Subject {
         }
     }
     /**
-     * @author Jens Olesen
+     * @author Jens Olesen s201729
      * Executes the actions of any field that a player is positioned on
      * @return false if any action didn't succeed
      */
@@ -322,14 +345,18 @@ public class GameController extends Subject {
         }
         return status;
     }
-    public void checkGameOver() {
+    /**
+     * @author Jens Olesen s201729
+     *
+     */
+    private void checkGameOver() {
         if (getWinner() > -1) {
             notifyChange();
         }
     }
 
     /**
-     * @author Jens Olesen
+     * @author Jens Olesen s201729
      * Method that updates a player's score when they land on a checkpoint
      */
     public int getWinner() {
@@ -342,7 +369,7 @@ public class GameController extends Subject {
         return -1;
     }
     /**
-     * @author Jens Olesen
+     * @author Rachid, Zeinab, Muaz
      * Method that updates a player's score when they land on a checkpoint
      */
     public void landCheckpoint(int ID, Player player){
