@@ -194,7 +194,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Checkpoint",
           "INSTANCE": {
-            "ID": "0"
+            "ID": "1"
           }
         }
       ],
@@ -625,7 +625,7 @@
         {
           "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.controller.Checkpoint",
           "INSTANCE": {
-            "ID": "0"
+            "ID": "2"
           }
         }
       ],
