@@ -36,7 +36,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
-import jdk.jfr.internal.Repository;
 import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +50,7 @@ import java.util.Optional;
 public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_OPTIONS = Arrays.asList("High Octane", "Sprint Cramp");
+    final private List<String> BOARD_OPTIONS = Arrays.asList("test","High Octane", "Sprint Cramp", "Eksamen");
     final private RoboRally roboRally;
     final private IRepository repository;
     private GameController gameController;
