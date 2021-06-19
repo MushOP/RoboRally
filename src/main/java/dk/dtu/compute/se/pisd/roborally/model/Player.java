@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
@@ -45,7 +46,7 @@ public class Player extends Subject {
     private String color;
     private int score;
     private Space space;
-    private Heading heading = SOUTH;
+    private Heading heading = EAST;
     private ArrayList<Integer> landedCheckpoints;
     private CommandCardField[] program;
     private CommandCardField[] cards;
